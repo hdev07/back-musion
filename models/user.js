@@ -22,7 +22,7 @@ const userSchema = new Schema({
   visitedMuseums: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Museums",
+      ref: "Museum",
     },
   ],
 });
