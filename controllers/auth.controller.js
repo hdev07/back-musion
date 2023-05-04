@@ -2,17 +2,15 @@ import { User } from "../models/user.js";
 import { generateToken, generateRefreshToken } from "../utils/tokenManager.js";
 
 export const register = async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
   try {
-    const user = new User({ email, password });
+    const user = new User({ name, email, password });
     await user.save();
 
     const { token, expiresIn } = generateToken(user.id);
     generateRefreshToken(user.id, res);
 
-    res.json({ token, expiresIn });
-
-    return res.status(201).json({ message: "Usuario creado" });
+    return res.status(201).json({ token, expiresIn });
   } catch (error) {
     if (error.code === 11000) {
       return res.status(400).json({ error: "El usuario ya existe" });

@@ -9,6 +9,7 @@ export const validationResultExpress = (req, res, next) => {
 };
 
 export const validationBodyRegister = [
+  body("name", "El nombre es obligatorio").trim().notEmpty(),
   body("email", "Formato de email incorrecto")
     .trim()
     .isEmail()
