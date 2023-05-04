@@ -7,7 +7,7 @@ const userSchema = new Schema({
     required: true,
     trim: true,
     unique: true,
-    localStorage: true,
+    lowercase: true,
     index: { unique: true },
   },
   password: {
