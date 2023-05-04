@@ -1,6 +1,5 @@
 import { User } from "../models/user.js";
-import jwt from "jsonwebtoken";
-import { generateToken } from "../utils/tokenManager.js";
+import { generateToken, generateRefreshToken } from "../utils/tokenManager.js";
 
 export const register = async (req, res) => {
   const { email, password } = req.body;
@@ -10,6 +9,7 @@ export const register = async (req, res) => {
     await user.save();
 
     const { token, expiresIn } = generateToken(user.id);
+    generateRefreshToken(user.id, res);
 
     res.json({ token, expiresIn });
 
@@ -38,34 +38,21 @@ export const login = async (req, res) => {
 
     // Generar token jwt
     const { token, expiresIn } = generateToken(user.id);
-    generateToken(user.id, res);
+    generateRefreshToken(user.id, res);
 
     return res.json({ token, expiresIn });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Error al loguearse" });
+    return res.status(500).json({ error: "Error del servidor" });
   }
 };
 
 export const refreshToken = (req, res) => {
   try {
-    const refreshTokenCookie = req.cookies.refreshToken;
-    if (!refreshTokenCookie) throw new Error("No hay token");
-
-    const { uid } = jwt.verify(refreshTokenCookie, process.env.JWT_REFRESH);
-    const { token, expiresIn } = generateToken(uid);
+    const { token, expiresIn } = generateToken(req.uid);
 
     return res.json({ token, expiresIn });
   } catch (error) {
-    console.log(error);
-    const errors = {
-      "invalid signature": "La firma del JWT no es válida",
-      "jwt expired": "JWT expirado",
-      "invalid token": "Token no válido",
-      "jwt malformed": "JWT formato no válido",
-    };
-
-    return res.status(401).send({ error: errors[error.message] });
+    return res.status(500).json({ error: "Error del servidor" });
   }
 };
 
@@ -74,7 +61,6 @@ export const logout = (req, res) => {
     res.clearCookie("refreshToken");
     return res.json({ message: "Logout exitoso" });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Error al cerrar sesión" });
+    return res.status(500).json({ error: "Error del servidor" });
   }
 };

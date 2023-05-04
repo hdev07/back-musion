@@ -24,7 +24,6 @@ userSchema.pre("save", async function (next) {
     this.password = await bcryptjs.hash(this.password, salt);
     next();
   } catch (error) {
-    console.log(error);
     throw new Error("Error al encriptar contraseña");
   }
 });

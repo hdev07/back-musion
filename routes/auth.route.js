@@ -7,6 +7,7 @@ import {
 } from "../controllers/auth.controller.js";
 import { body } from "express-validator";
 import { validationResultExpress } from "../middlewares/validationResultExpress.js";
+import { requireRefreshToken } from "../middlewares/requireRefreshToken.js";
 
 const router = Router();
 
@@ -48,7 +49,7 @@ router.post(
   login
 );
 
-router.get("/refresh", refreshToken);
+router.get("/refresh", requireRefreshToken, refreshToken);
 router.get("/logout", logout);
 
 export default router;
