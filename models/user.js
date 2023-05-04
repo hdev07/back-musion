@@ -1,7 +1,12 @@
-import { Schema, model } from "mongoose";
+import mongoose from "mongoose";
 import bcryptjs from "bcryptjs";
 
+const { Schema, model } = mongoose;
 const userSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
@@ -14,6 +19,12 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  visitedMuseums: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Museums",
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {

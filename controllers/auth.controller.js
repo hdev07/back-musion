@@ -5,7 +5,6 @@ export const register = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = new User({ email, password });
-
     await user.save();
 
     const { token, expiresIn } = generateToken(user.id);
