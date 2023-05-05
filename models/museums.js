@@ -15,8 +15,14 @@ const museumSchema = new Schema({
     required: true,
   },
   coordinates: {
-    lat: Number,
-    lng: Number,
+    lat: {
+      type: Number,
+      required: true,
+    },
+    lng: {
+      type: Number,
+      required: true,
+    },
   },
   address: {
     streetAddress: String,
@@ -29,10 +35,16 @@ const museumSchema = new Schema({
   },
   telephone: String,
   url: String,
-  openingHours: [String],
+  openingHours: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   priceRange: {
+    freeSunday: Boolean,
     general: Number,
-    estudent: Number,
+    student: Number,
     inapam: Number,
   },
   review: {

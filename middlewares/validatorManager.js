@@ -38,3 +38,27 @@ export const validationBodyLogin = [
     .isLength({ min: 8 }),
   validationResultExpress,
 ];
+
+export const validatorMuseumAdd = [
+  body("name", "El nombre es obligatorio").trim().notEmpty(),
+  body("description", "La descripcion es obligatoria").trim().notEmpty(),
+  body("image", "La imagen es obligatoria").trim().notEmpty(),
+  body("coordinates.lat", "La coordenada latitud es obligatoria")
+    .trim()
+    .notEmpty(),
+  body(
+    "coordinates.lat",
+    "La coordenada latitud tiene que ser numerica"
+  ).isNumeric(),
+  body("coordinates.lng", "La coordenada longitud es obligatoria")
+    .trim()
+    .notEmpty(),
+  body(
+    "coordinates.lng",
+    "La coordenada longitud tiene que ser numerica"
+  ).isNumeric(),
+  body("openingHours", "Los horarios de apertura son obligatorios")
+    .trim()
+    .notEmpty(),
+  validationResultExpress,
+];
