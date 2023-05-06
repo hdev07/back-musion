@@ -6,8 +6,8 @@ export const getMuseums = async (req, res) => {
 
     return res.json({ museums });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Error del servidor" });
+    console.error(error);
+    return res.status(500).json({ msg: "Error on server" });
   }
 };
 
@@ -17,16 +17,16 @@ export const getMuseumById = async (req, res) => {
     const museum = await Museum.findById(id);
 
     if (!museum) {
-      return res.status(404).json({ error: "Museo no encontrado" });
+      return res.status(404).json({ msg: "Museo no encontrado" });
     }
 
     return res.json({ museum });
   } catch (error) {
     if (error.kind === "ObjectId")
-      return res.status(404).json({ error: "Formato de id incorrecto" });
+      return res.status(404).json({ msg: "Formato de id incorrecto" });
 
-    console.log(error);
-    return res.status(500).json({ error: "Error del servidor" });
+    console.error(error);
+    return res.status(500).json({ msg: "Error on server" });
   }
 };
 
@@ -90,8 +90,8 @@ export const createMuseums = async (req, res) => {
 
     return res.status(201).json({ museum });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Error del servidor" });
+    console.error(error);
+    return res.status(500).json({ msg: "Error on server" });
   }
 };
 
@@ -117,7 +117,7 @@ export const updateMuseumById = async (req, res) => {
     const museum = await Museum.findById(id);
 
     if (!museum) {
-      return res.status(404).json({ error: "Museo no encontrado" });
+      return res.status(404).json({ msg: "Museo no encontrado" });
     }
 
     (museum.name = name),
@@ -157,13 +157,13 @@ export const updateMuseumById = async (req, res) => {
       (museum.stayTime = stayTime),
       await museum.save();
 
-    return res.status(200).json({ message: "Museo actualizado" });
+    return res.status(200).json({ msg: "Museo actualizado" });
   } catch (error) {
     if (error.kind === "ObjectId")
-      return res.status(404).json({ error: "Formato de id incorrecto" });
+      return res.status(404).json({ msg: "Formato de id incorrecto" });
 
-    console.log(error);
-    return res.status(500).json({ error: "Error del servidor" });
+    console.error(error);
+    return res.status(500).json({ msg: "Error on server" });
   }
 };
 
@@ -173,15 +173,15 @@ export const deleteMuseumById = async (req, res) => {
     const museum = await Museum.findByIdAndDelete(id);
 
     if (!museum) {
-      return res.status(404).json({ error: "Museo no encontrado" });
+      return res.status(404).json({ msg: "Museo no encontrado" });
     }
 
-    return res.json({ message: "Museo eliminado" });
+    return res.json({ msg: "Museo eliminado" });
   } catch (error) {
     if (error.kind === "ObjectId")
-      return res.status(404).json({ error: "Formato de id incorrecto" });
+      return res.status(404).json({ msg: "Formato de id incorrecto" });
 
-    console.log(error);
-    return res.status(500).json({ error: "Error del servidor" });
+    console.error(error);
+    return res.status(500).json({ msg: "Error on server" });
   }
 };

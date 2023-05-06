@@ -61,7 +61,10 @@ const museumSchema = new Schema({
       },
     },
     author: String,
-    datePublished: Date,
+    datePublished: {
+      type: Date,
+      default: Date.now,
+    },
     description: String,
   },
   travelTime: Number,

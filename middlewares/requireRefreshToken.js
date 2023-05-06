@@ -4,17 +4,17 @@ import { tokenVerificationErrors } from "../utils/tokenManager.js";
 export const requireRefreshToken = (req, res, next) => {
   try {
     const refreshTokenCookie = req.cookies.refreshToken;
-    if (!refreshTokenCookie) throw new Error("No hay token");
+    if (!refreshTokenCookie) throw new Error("Not a refresh token");
 
     const { uid } = jwt.verify(refreshTokenCookie, process.env.JWT_REFRESH);
 
     req.uid = uid;
     next();
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     res.status(401).json({
-      error: tokenVerificationErrors[error.message],
+      msg: tokenVerificationErrors[error.msg],
     });
   }
 };

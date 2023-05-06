@@ -25,6 +25,12 @@ const userSchema = new Schema({
       ref: "Museum",
     },
   ],
+  favoritesMuseums: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Museum",
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {

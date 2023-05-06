@@ -13,9 +13,9 @@ export const register = async (req, res) => {
     return res.status(201).json({ token, expiresIn });
   } catch (error) {
     if (error.code === 11000) {
-      return res.status(400).json({ error: "El usuario ya existe" });
+      return res.status(400).json({ msg: "The user already exists" });
     }
-    return res.status(500).json({ error: "Error al crear el usuario" });
+    return res.status(500).json({ msg: "Error on server" });
   }
 };
 
@@ -25,12 +25,12 @@ export const login = async (req, res) => {
 
     let user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: "Usuario no encontrado" });
+      return res.status(400).json({ msg: "User not found" });
     }
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(400).json({ error: "Credenciales incorrectas" });
+      return res.status(400).json({ msg: "Credentials are not valid" });
     }
 
     const { token, expiresIn } = generateToken(user.id);
@@ -38,7 +38,7 @@ export const login = async (req, res) => {
 
     return res.json({ token, expiresIn });
   } catch (error) {
-    return res.status(500).json({ error: "Error del servidor" });
+    return res.status(500).json({ msg: "Error on server" });
   }
 };
 
@@ -47,15 +47,15 @@ export const refreshToken = (req, res) => {
     const { token, expiresIn } = generateToken(req.uid);
     return res.json({ token, expiresIn });
   } catch (error) {
-    return res.status(500).json({ error: "Error del servidor" });
+    return res.status(500).json({ msg: "Error on server" });
   }
 };
 
 export const logout = (req, res) => {
   try {
     res.clearCookie("refreshToken");
-    return res.json({ message: "Logout exitoso" });
+    return res.json({ msg: "Logout exitoso" });
   } catch (error) {
-    return res.status(500).json({ error: "Error del servidor" });
+    return res.status(500).json({ msg: "Error on server" });
   }
 };

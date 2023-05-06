@@ -6,7 +6,7 @@ export const generateToken = (uid) => {
     const token = jwt.sign({ uid }, process.env.JWT_SECRET, { expiresIn });
     return { token, expiresIn };
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -22,7 +22,7 @@ export const generateRefreshToken = (uid, res) => {
       expires: new Date(Date.now() + expiresIn * 1000),
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
