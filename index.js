@@ -8,13 +8,13 @@ import cors from "cors";
 
 const app = express();
 
-const { ORIGIN, ORIGIN1, ORIGIN2, ORIGIN3 } = process.env;
-const witheList = [ORIGIN, ORIGIN1, ORIGIN2, ORIGIN3];
+const { ORIGIN, ORIGIN1, ORIGIN2 } = process.env;
+const witheList = [ORIGIN, ORIGIN1, ORIGIN2];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (witheList.indexOf(origin) !== -1) {
+      if (!origin || witheList.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
         return callback(
