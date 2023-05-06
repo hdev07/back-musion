@@ -33,7 +33,6 @@ export const login = async (req, res) => {
       return res.status(400).json({ error: "Credenciales incorrectas" });
     }
 
-    // Generar token jwt
     const { token, expiresIn } = generateToken(user.id);
     generateRefreshToken(user.id, res);
 
@@ -46,7 +45,6 @@ export const login = async (req, res) => {
 export const refreshToken = (req, res) => {
   try {
     const { token, expiresIn } = generateToken(req.uid);
-
     return res.json({ token, expiresIn });
   } catch (error) {
     return res.status(500).json({ error: "Error del servidor" });

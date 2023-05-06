@@ -1,7 +1,16 @@
 import { Router } from "express";
-import { getMuseums, createMuseums } from "../controllers/museum.controller.js";
+import {
+  getMuseums,
+  getMuseumById,
+  createMuseums,
+  updateMuseumById,
+  deleteMuseumById,
+} from "../controllers/museum.controller.js";
 import { requireToken } from "../middlewares/requireToken.js";
-import { validatorMuseumAdd } from "../middlewares/validatorManager.js";
+import {
+  paramLinkValidator,
+  validatorBodyMuseum,
+} from "../middlewares/validatorManager.js";
 const router = Router();
 
 // GET    /api/v1/museum       get all museum
@@ -11,5 +20,14 @@ const router = Router();
 // DELETE /api/v1/museum/:id   delete museum
 
 router.get("/", requireToken, getMuseums);
-router.post("/", requireToken, validatorMuseumAdd, createMuseums);
+router.get("/:id", requireToken, paramLinkValidator, getMuseumById);
+router.post("/", requireToken, validatorBodyMuseum, createMuseums);
+router.patch(
+  "/:id",
+  requireToken,
+  paramLinkValidator,
+  validatorBodyMuseum,
+  updateMuseumById
+);
+router.delete("/:id", requireToken, paramLinkValidator, deleteMuseumById);
 export default router;

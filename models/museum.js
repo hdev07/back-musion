@@ -14,6 +14,7 @@ const museumSchema = new Schema({
     type: String,
     required: true,
   },
+  category: String,
   coordinates: {
     lat: {
       type: Number,

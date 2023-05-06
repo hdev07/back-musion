@@ -1,4 +1,4 @@
-import { validationResult, body } from "express-validator";
+import { validationResult, body, param } from "express-validator";
 
 export const validationResultExpress = (req, res, next) => {
   const errors = validationResult(req);
@@ -7,6 +7,15 @@ export const validationResultExpress = (req, res, next) => {
   }
   next();
 };
+
+export const paramLinkValidator = [
+  param("id")
+    .trim()
+    .escape()
+    .isMongoId()
+    .withMessage("Formato de id incorrecto"),
+  validationResultExpress,
+];
 
 export const validationBodyRegister = [
   body("name", "El nombre es obligatorio").trim().notEmpty(),
@@ -39,7 +48,7 @@ export const validationBodyLogin = [
   validationResultExpress,
 ];
 
-export const validatorMuseumAdd = [
+export const validatorBodyMuseum = [
   body("name", "El nombre es obligatorio").trim().notEmpty(),
   body("description", "La descripcion es obligatoria").trim().notEmpty(),
   body("image", "La imagen es obligatoria").trim().notEmpty(),
@@ -57,8 +66,6 @@ export const validatorMuseumAdd = [
     "coordinates.lng",
     "La coordenada longitud tiene que ser numerica"
   ).isNumeric(),
-  body("openingHours", "Los horarios de apertura son obligatorios")
-    .trim()
-    .notEmpty(),
+  body("openingHours", "Los horarios son obligatorios").trim().notEmpty(),
   validationResultExpress,
 ];
