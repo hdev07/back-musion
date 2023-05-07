@@ -8,7 +8,7 @@ export const validationResultExpress = (req, res, next) => {
   next();
 };
 
-export const paramLinkValidator = [
+export const paramIdValidator = [
   param("id")
     .trim()
     .escape()
@@ -23,13 +23,13 @@ export const validationBodyRegister = [
     .trim()
     .isEmail()
     .normalizeEmail(),
-  body("password", "Password debe tener al menos 8 caracteres")
+  body("password", "La contraseña debe tener al menos 8 caracteres")
     .trim()
     .isLength({ min: 8 }),
-  body("password", "Formato de password incorrecto").custom(
+  body("password", "Formato de contraseña incorrecto").custom(
     (value, { req }) => {
       if (value !== req.body.repassword) {
-        throw new Error("Passwords no coinciden");
+        throw new Error("Las contraseñas no coinciden");
       }
       return value;
     }
@@ -42,9 +42,6 @@ export const validationBodyLogin = [
     .trim()
     .isEmail()
     .normalizeEmail(),
-  body("password", "Password debe tener al menos 8 caracteres")
-    .trim()
-    .isLength({ min: 8 }),
   validationResultExpress,
 ];
 

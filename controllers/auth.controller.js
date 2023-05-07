@@ -13,7 +13,7 @@ export const register = async (req, res) => {
     return res.status(201).json({ token, expiresIn });
   } catch (error) {
     if (error.code === 11000) {
-      return res.status(400).json({ msg: "The user already exists" });
+      return res.status(400).json({ msg: "El usuario ya existe" });
     }
     return res.status(500).json({ msg: "Error on server" });
   }
@@ -25,12 +25,12 @@ export const login = async (req, res) => {
 
     let user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ msg: "User not found" });
+      return res.status(400).json({ msg: "Usuaeario no encontrado" });
     }
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(400).json({ msg: "Credentials are not valid" });
+      return res.status(400).json({ msg: "Correo o contraseña incorrectos" });
     }
 
     const { token, expiresIn } = generateToken(user.id);

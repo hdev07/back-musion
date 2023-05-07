@@ -8,7 +8,7 @@ import {
 } from "../controllers/museum.controller.js";
 import { requireToken } from "../middlewares/requireToken.js";
 import {
-  paramLinkValidator,
+  paramIdValidator,
   validatorBodyMuseum,
 } from "../middlewares/validatorManager.js";
 const router = Router();
@@ -20,14 +20,14 @@ const router = Router();
 // DELETE /api/v1/museum/:id   delete museum
 
 router.get("/", requireToken, getMuseums);
-router.get("/:id", requireToken, paramLinkValidator, getMuseumById);
+router.get("/:id", requireToken, paramIdValidator, getMuseumById);
 router.post("/", requireToken, validatorBodyMuseum, createMuseums);
 router.patch(
   "/:id",
   requireToken,
-  paramLinkValidator,
+  paramIdValidator,
   validatorBodyMuseum,
   updateMuseumById
 );
-router.delete("/:id", requireToken, paramLinkValidator, deleteMuseumById);
+router.delete("/:id", requireToken, paramIdValidator, deleteMuseumById);
 export default router;
