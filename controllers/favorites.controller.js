@@ -61,7 +61,6 @@ export const addToFavorites = async (req, res) => {
 export const removeFromFavorites = async (req, res) => {
   const { id: museumId } = req.params;
   const userId = req.uid;
-  console.log(museumId);
 
   try {
     // Verificar si el usuario existe
