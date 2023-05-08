@@ -19,10 +19,7 @@ export const paramIdValidator = [
 
 export const validationBodyRegister = [
   body("name", "El nombre es obligatorio").trim().notEmpty(),
-  body("email", "Formato de email incorrecto")
-    .trim()
-    .isEmail()
-    .normalizeEmail(),
+  body("email", "Formato de email incorrecto").trim().isEmail(),
   body("password", "La contraseña debe tener al menos 8 caracteres")
     .trim()
     .isLength({ min: 8 }),
