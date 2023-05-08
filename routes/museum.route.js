@@ -31,3 +31,11 @@ router.patch(
 );
 router.delete("/:id", requireToken, paramIdValidator, deleteMuseumById);
 export default router;
+
+//ADD THIS MUSEUMS|
+// MIDE - MUSEO INTERACTIVO DE ECONOMIA
+// BELLAS ARTES
+// RIPLEY
+// CERA
+// SOUMAYA
+// JUMEX

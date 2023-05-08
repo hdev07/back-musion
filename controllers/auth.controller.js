@@ -15,7 +15,7 @@ export const register = async (req, res) => {
     if (error.code === 11000) {
       return res.status(400).json({ msg: "El usuario ya existe" });
     }
-    return res.status(500).json({ msg: "Error on server" });
+    return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
   }
 };
 
@@ -38,7 +38,7 @@ export const login = async (req, res) => {
 
     return res.json({ token, expiresIn });
   } catch (error) {
-    return res.status(500).json({ msg: "Error on server" });
+    return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
   }
 };
 
@@ -47,7 +47,7 @@ export const refreshToken = (req, res) => {
     const { token, expiresIn } = generateToken(req.uid);
     return res.json({ token, expiresIn });
   } catch (error) {
-    return res.status(500).json({ msg: "Error on server" });
+    return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
   }
 };
 
@@ -56,6 +56,6 @@ export const logout = (req, res) => {
     res.clearCookie("refreshToken");
     return res.json({ msg: "Logout exitoso" });
   } catch (error) {
-    return res.status(500).json({ msg: "Error on server" });
+    return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
   }
 };

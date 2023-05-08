@@ -17,4 +17,4 @@ const recommendationSchema = new Schema({
   },
 });
 
-export const Recommendation = model("recommendation", recommendationSchema);
+export const Recommendation = model("Recommendation", recommendationSchema);
