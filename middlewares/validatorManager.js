@@ -1,4 +1,4 @@
-import { validationResult, body, param } from "express-validator";
+import { validationResult, body, param, query } from "express-validator";
 
 export const validationResultExpress = (req, res, next) => {
   const errors = validationResult(req);
@@ -14,6 +14,43 @@ export const paramIdValidator = [
     .escape()
     .isMongoId()
     .withMessage("Formato de id incorrecto"),
+  validationResultExpress,
+];
+
+export const querySearchValidator = [
+  query("search")
+    .trim()
+    .escape()
+    .isLength({ max: 30 })
+    .withMessage("El parámetro 'search' debe tener como máximo 30 caracteres"),
+  validationResultExpress,
+];
+
+export const queryPaginationValidator = [
+  query("page")
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage(
+      "El parámetro 'page' debe ser un número entero mayor o igual a 1"
+    ),
+  validationResultExpress,
+];
+
+export const queryCategoriesValidator = [
+  query("categories").optional().escape(),
+  // .custom((value) => {
+  //   const categories = value.split(",");
+  //   // Agregar la ista de categorías permitidas
+  //   const allowedCategories = ["categoria1", "categoria2", "categoria3"];
+
+  //   for (const category of categories) {
+  //     if (!allowedCategories.includes(category)) {
+  //       throw new Error(`La categoría '${category}' no es válida`);
+  //     }
+  //   }
+
+  //   return true;
+  // }),
   validationResultExpress,
 ];
 

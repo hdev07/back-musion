@@ -1,8 +1,41 @@
 import { Museum } from "../models/museum.js";
 
 export const getMuseums = async (req, res) => {
+  const { page = 1, limit = 10, search, categories } = req.query;
+
   try {
-    const museums = await Museum.find();
+    const query = {};
+
+    if (search) {
+      query.name = { $regex: search, $options: "i" };
+    }
+
+    if (categories) {
+      query.category = { $in: categories.split(",") };
+    }
+
+    const count = await Museum.countDocuments(query);
+    const museums = await Museum.find(query)
+      .select("id name description category address review coordinates")
+      .skip((parseInt(page) - 1) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    res.status(200).json({
+      total: count,
+      page: parseInt(page),
+      limit: parseInt(limit),
+      museums,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+};
+
+export const getAllMuseums = async (req, res) => {
+  try {
+    const museums = await Museum.find().select(
+      "id name description category address review coordinates"
+    );
 
     return res.status(200).json({ museums });
   } catch (error) {

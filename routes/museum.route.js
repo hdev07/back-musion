@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  getAllMuseums,
   getMuseums,
   getMuseumById,
   createMuseums,
@@ -9,17 +10,29 @@ import {
 import { requireToken } from "../middlewares/requireToken.js";
 import {
   paramIdValidator,
+  // queryCategoriesValidator,
+  queryPaginationValidator,
+  querySearchValidator,
   validatorBodyMuseum,
 } from "../middlewares/validatorManager.js";
 const router = Router();
 
-// GET    /api/v1/museum       get all museum
-// GET    /api/v1/museum/:id   get one museum
-// POST   /api/v1/museum       create museum
-// PATCH  /api/v1/museum/:id   update museum
-// DELETE /api/v1/museum/:id   delete museum
+// GET    /api/v1/museums       get museums whit pagination/search/category
+// GET    /api/v1/museums/all   get all museums
+// GET    /api/v1/museums/:id   get one museum
+// POST   /api/v1/museums       create museum
+// PATCH  /api/v1/museums/:id   update museum
+// DELETE /api/v1/museums/:id   delete museum
 
-router.get("/", requireToken, getMuseums);
+router.get(
+  "/",
+  requireToken,
+  querySearchValidator,
+  queryPaginationValidator,
+  // queryCategoriesValidator,
+  getMuseums
+);
+router.get("/all", getAllMuseums);
 router.get("/:id", requireToken, paramIdValidator, getMuseumById);
 router.post("/", requireToken, validatorBodyMuseum, createMuseums);
 router.patch(
@@ -31,11 +44,3 @@ router.patch(
 );
 router.delete("/:id", requireToken, paramIdValidator, deleteMuseumById);
 export default router;
-
-//ADD THIS MUSEUMS|
-// MIDE - MUSEO INTERACTIVO DE ECONOMIA
-// BELLAS ARTES
-// RIPLEY
-// CERA
-// SOUMAYA
-// JUMEX
