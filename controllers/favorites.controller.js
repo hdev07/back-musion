@@ -3,6 +3,53 @@ import { User } from "../models/user.js";
 import { Museum } from "../models/museum.js";
 
 export const getFavorites = async (req, res) => {
+  const { page = 1, search, categories } = req.query;
+  const limit = 25;
+  const userId = req.uid;
+
+  try {
+    const query = {};
+
+    // Agregar filtro de búsqueda por nombre
+    if (search) {
+      query.name = { $regex: search, $options: "i" };
+    }
+
+    // Agregar filtro de búsqueda por categorías
+    if (categories) {
+      query.category = { $in: categories.split(",") };
+    }
+
+    // Obtiene el número total de resultados
+    const count = await Museum.countDocuments(query);
+    const totalPages = Math.ceil(count / limit);
+
+    // Obtener los favoritos del usuario con los filtros aplicados y paginación
+    const user = await User.findById(userId)
+      .populate({
+        path: "favoritesMuseums",
+        match: query,
+        select: "id name description category address review coordinates",
+      })
+      .skip((parseInt(page) - 1) * parseInt(limit))
+      .limit(parseInt(limit));
+
+    const favorites = user.favoritesMuseums;
+
+    // Enviar la respuesta con los resultados
+    res.status(200).json({
+      total: count,
+      currentPage: parseInt(page),
+      perPage: parseInt(limit),
+      lastPage: totalPages,
+      favorites,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener los museos favoritos" });
+  }
+};
+
+export const getAllFavorites = async (req, res) => {
   const userId = req.uid;
 
   try {
@@ -12,10 +59,29 @@ export const getFavorites = async (req, res) => {
       return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
+    // Verificar si el usuario tiene favoritos
     res.status(200).json({ favorites: user.favoritesMuseums });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al obtener los museos favoritos" });
+  }
+};
+
+export const getFavoritesById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const museum = await Museum.findById(id);
+
+    if (!museum) {
+      return res.status(404).json({ msg: "Museo no encontrado" });
+    }
+
+    return res.json({ museum });
+  } catch (error) {
+    if (error.kind === "ObjectId")
+      return res.status(404).json({ msg: "Formato de id incorrecto" });
+
+    return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
   }
 };
 

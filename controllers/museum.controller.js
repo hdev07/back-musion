@@ -1,29 +1,38 @@
 import { Museum } from "../models/museum.js";
 
 export const getMuseums = async (req, res) => {
-  const { page = 1, limit = 10, search, categories } = req.query;
+  const { page = 1, search, categories } = req.query;
+  const limit = 25;
 
   try {
     const query = {};
 
+    // Agrega filtro de búsqueda por nombre
     if (search) {
       query.name = { $regex: search, $options: "i" };
     }
 
+    // Agrega filtro de búsqueda por categorías
     if (categories) {
       query.category = { $in: categories.split(",") };
     }
 
+    // Obtiene el número total de resultados
     const count = await Museum.countDocuments(query);
+    const totalPages = Math.ceil(count / limit);
+
+    // Obtiene los museos que coinciden con los criterios de búsqueda
     const museums = await Museum.find(query)
       .select("id name description category address review coordinates")
       .skip((parseInt(page) - 1) * parseInt(limit))
       .limit(parseInt(limit));
 
+    // Enviar la respuesta con los resultados
     res.status(200).json({
       total: count,
-      page: parseInt(page),
-      limit: parseInt(limit),
+      currentPage: parseInt(page),
+      perPage: parseInt(limit),
+      lastPage: totalPages,
       museums,
     });
   } catch (error) {
@@ -58,7 +67,6 @@ export const getMuseumById = async (req, res) => {
     if (error.kind === "ObjectId")
       return res.status(404).json({ msg: "Formato de id incorrecto" });
 
-    console.error(error);
     return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
   }
 };
