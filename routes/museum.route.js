@@ -32,7 +32,7 @@ router.get(
   // queryCategoriesValidator,
   getMuseums
 );
-router.get("/all", getAllMuseums);
+router.get("/all", requireToken, getAllMuseums);
 router.get("/:id", requireToken, paramIdValidator, getMuseumById);
 router.post("/", requireToken, validatorBodyMuseum, createMuseums);
 router.patch(

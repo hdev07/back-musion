@@ -6,6 +6,7 @@ import museumRouter from "./routes/museum.route.js";
 import favoritesRouter from "./routes/favorites.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { limiter } from "./middlewares/rateLimit.js";
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use(limiter);
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/v1/auth", authRouter);
@@ -34,4 +35,6 @@ app.use("/api/v1/museums", museumRouter);
 app.use("/api/v1/favorites", favoritesRouter);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+app.listen(PORT, () =>
+  console.log(`Server is running on port http://localhost:${PORT}`)
+);
