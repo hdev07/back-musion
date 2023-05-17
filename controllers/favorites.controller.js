@@ -20,21 +20,23 @@ export const getFavorites = async (req, res) => {
       query.category = { $in: categories.split(",") };
     }
 
-    // Obtiene el número total de resultados
-    const count = await Museum.countDocuments(query);
-    const totalPages = Math.ceil(count / limit);
+    // Obtener el usuario con sus favoritos
+    const user = await User.findById(userId).populate({
+      path: "favoritesMuseums",
+      match: query,
+      select: "id name description category address review coordinates",
+      options: {
+        skip: (parseInt(page) - 1) * parseInt(limit),
+        limit: parseInt(limit),
+      },
+    });
 
-    // Obtener los favoritos del usuario con los filtros aplicados y paginación
-    const user = await User.findById(userId)
-      .populate({
-        path: "favoritesMuseums",
-        match: query,
-        select: "id name description category address review coordinates",
-      })
-      .skip((parseInt(page) - 1) * parseInt(limit))
-      .limit(parseInt(limit));
-
+    // Obtener los favoritos del usuario
     const favorites = user.favoritesMuseums;
+
+    // Obtener el número total de resultados
+    const count = favorites.length;
+    const totalPages = Math.ceil(count / limit);
 
     // Enviar la respuesta con los resultados
     res.status(200).json({
