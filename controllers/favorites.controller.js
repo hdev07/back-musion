@@ -120,7 +120,7 @@ export const addToFavorites = async (req, res) => {
     user.favoritesMuseums.push(museumId);
     await user.save();
 
-    res.status(200).json({ message: "Museo agregado a favoritos" });
+    res.status(200).json({ msg: "Museo agregado a favoritos" });
   } catch (error) {
     res.status(500).json({ msg: "Error al agregar el museo a favoritos" });
   }
@@ -155,7 +155,7 @@ export const removeFromFavorites = async (req, res) => {
     );
     await user.save();
 
-    res.status(200).json({ message: "Museo eliminado de favoritos" });
+    res.status(200).json({ msg: "Museo eliminado de favoritos" });
   } catch (error) {
     res.status(500).json({ msg: "Error al eliminar el museo de favoritos" });
   }
