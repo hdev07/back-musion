@@ -36,7 +36,7 @@ export const getMuseums = async (req, res) => {
       museums,
     });
   } catch (error) {
-    res.status(500).json({ error: "Error en el servidor" });
+    res.status(500).json({ msg: "Error en el servidor" });
   }
 };
 
