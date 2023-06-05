@@ -15,9 +15,18 @@ const userSchema = new Schema({
     lowercase: true,
     index: { unique: true },
   },
+  emailVerified: {
+    type: Boolean,
+  },
   password: {
     type: String,
     required: true,
+  },
+  resetToken: {
+    type: String,
+  },
+  resetTokenExpires: {
+    type: Date,
   },
   visitedMuseums: [
     {
