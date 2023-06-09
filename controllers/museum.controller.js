@@ -48,7 +48,6 @@ export const getAllMuseums = async (req, res) => {
 
     return res.status(200).json({ museums });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
   }
 };
@@ -131,7 +130,6 @@ export const createMuseums = async (req, res) => {
 
     return res.status(201).json({ museum });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
   }
 };
@@ -203,7 +201,6 @@ export const updateMuseumById = async (req, res) => {
     if (error.kind === "ObjectId")
       return res.status(404).json({ msg: "Formato de id incorrecto" });
 
-    console.error(error);
     return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
   }
 };
@@ -222,7 +219,6 @@ export const deleteMuseumById = async (req, res) => {
     if (error.kind === "ObjectId")
       return res.status(404).json({ msg: "Formato de id incorrecto" });
 
-    console.error(error);
     return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
   }
 };

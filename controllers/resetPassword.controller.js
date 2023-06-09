@@ -6,45 +6,6 @@ import { User } from "../models/user.js";
 
 const readFileAsync = promisify(fs.readFile);
 
-export const sendConfirmationEmail = async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    // Busca el usuario en la base de datos por el correo electrónico
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res
-        .status(404)
-        .json({ msg: "El correo electrónico no está registrado" });
-    }
-
-    const confirmationToken = uuidv4();
-    user.confirmationToken = confirmationToken;
-    await user.save();
-
-    const template = await readFileAsync(
-      "./email-templates/confirmation.html",
-      "utf-8"
-    );
-    const confirmationLink = `https://app.musion.day/confirm?token=${confirmationToken}`;
-    const emailContent = template
-      .replace("{{confirmationLink}}", confirmationLink)
-      .replace("{{userName}}", user.name);
-
-    await sendEmail(email, "Confirmación de correo electrónico", emailContent);
-
-    res.status(200).json({
-      msg: "Se ha enviado un correo electrónico de confirmación",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      msg: "Error al enviar el correo electrónico de confirmación",
-    });
-  }
-};
-
 export const requestResetPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -78,7 +39,6 @@ export const requestResetPassword = async (req, res) => {
       msg: "Se ha enviado un correo electrónico para restablecer la contraseña",
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       msg: "Ha ocurrido un error al solicitar el restablecimiento de contraseña",
     });
@@ -111,7 +71,6 @@ export const resetPassword = async (req, res) => {
       .status(200)
       .json({ msg: "La contraseña se ha restablecido correctamente" });
   } catch (error) {
-    console.error(error);
     res
       .status(500)
       .json({ msg: "Ha ocurrido un error al restablecer la contraseña" });

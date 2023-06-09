@@ -18,6 +18,7 @@ const userSchema = new Schema({
   emailVerified: {
     type: Boolean,
   },
+  confirmationToken: { type: String },
   password: {
     type: String,
     required: true,

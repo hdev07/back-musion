@@ -18,7 +18,6 @@ export const getUserInfo = async (req, res) => {
       visitedMuseums: user.visitedMuseums,
     });
   } catch (error) {
-    console.error(error);
     res
       .status(500)
       .json({ msg: "Error al obtener la información del usuario" });

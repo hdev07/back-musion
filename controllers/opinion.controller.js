@@ -14,7 +14,6 @@ export const createOpinion = async (req, res) => {
 
     res.status(201).json({ opinion });
   } catch (error) {
-    console.log("error :>> ", error);
     res.status(500).json({ msg: "Ocurrio un error en el servidor" });
   }
 };

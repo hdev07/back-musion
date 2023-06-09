@@ -64,7 +64,6 @@ export const getAllFavorites = async (req, res) => {
     // Verificar si el usuario tiene favoritos
     res.status(200).json({ favorites: user.favoritesMuseums });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ msg: "Error al obtener los museos favoritos" });
   }
 };
