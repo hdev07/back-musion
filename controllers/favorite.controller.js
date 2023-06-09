@@ -69,24 +69,6 @@ export const getAllFavorites = async (req, res) => {
   }
 };
 
-export const getFavoritesById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const museum = await Museum.findById(id);
-
-    if (!museum) {
-      return res.status(404).json({ msg: "Museo no encontrado" });
-    }
-
-    return res.json({ museum });
-  } catch (error) {
-    if (error.kind === "ObjectId")
-      return res.status(404).json({ msg: "Formato de id incorrecto" });
-
-    return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
-  }
-};
-
 export const addToFavorites = async (req, res) => {
   const { museumId } = req.body;
   const userId = req.uid;
