@@ -4,8 +4,6 @@ import { User } from "../models/user.js";
 export const getUserInfo = async (req, res) => {
   try {
     const userId = req.uid;
-    console.log("req :>> ", req.uid);
-
     const user = await User.findById(userId);
 
     if (!user) {

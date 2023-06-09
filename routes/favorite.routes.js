@@ -5,7 +5,7 @@ import {
   addToFavorites,
   removeFromFavorites,
   getFavoritesById,
-} from "../controllers/favorites.controller.js";
+} from "../controllers/favorite.controller.js";
 import { requireToken } from "../middlewares/requireToken.js";
 import {
   paramIdValidator,

@@ -1,4 +1,4 @@
-import { Opinion } from "../models/opinions.js";
+import { Opinion } from "../models/opinion.js";
 
 export const createOpinion = async (req, res) => {
   try {
