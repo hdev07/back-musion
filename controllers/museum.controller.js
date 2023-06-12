@@ -5,7 +5,7 @@ export const getMuseums = async (req, res) => {
   const limit = 25;
 
   try {
-    const query = {};
+    let query = {};
 
     // Agrega filtro de búsqueda por nombre
     if (search) {
@@ -14,7 +14,16 @@ export const getMuseums = async (req, res) => {
 
     // Agrega filtro de búsqueda por categorías
     if (categories) {
-      query.category = { $in: categories.split(",") };
+      const categoryList = categories.split(",");
+      if (categoryList.includes("Sin categoría")) {
+        query.$or = [
+          { category: { $in: categoryList } },
+          { category: { $exists: false } },
+          { category: "" },
+        ];
+      } else {
+        query.category = { $in: categoryList };
+      }
     }
 
     // Obtiene el número total de resultados
@@ -220,5 +229,30 @@ export const deleteMuseumById = async (req, res) => {
       return res.status(404).json({ msg: "Formato de id incorrecto" });
 
     return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
+  }
+};
+
+export const getCategoriesWithCounts = async (req, res) => {
+  try {
+    const categories = await Museum.distinct("category");
+
+    const categoryCounts = await Museum.aggregate([
+      {
+        $group: {
+          _id: "$category",
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const categoryData = categories.map((category) => {
+      const count =
+        categoryCounts.find((item) => item._id === category)?.count || 0;
+      return { category, count };
+    });
+
+    return res.status(200).json({ categories: categoryData });
+  } catch (error) {
+    return res.status(500).json({ msg: "Ocurrió un error en el servidor" });
   }
 };

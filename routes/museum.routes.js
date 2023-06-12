@@ -6,11 +6,12 @@ import {
   createMuseums,
   updateMuseumById,
   deleteMuseumById,
+  getCategoriesWithCounts,
 } from "../controllers/museum.controller.js";
 import { requireToken } from "../middlewares/requireToken.js";
 import {
   paramIdValidator,
-  // queryCategoriesValidator,
+  queryCategoriesValidator,
   queryPaginationValidator,
   querySearchValidator,
   validatorBodyMuseum,
@@ -24,16 +25,17 @@ const router = Router();
 // PATCH  /api/v1/museums/:id   update museum
 // DELETE /api/v1/museums/:id   delete museum
 
+router.get("/categories", requireToken, getCategoriesWithCounts);
 router.get(
   "/",
   requireToken,
   querySearchValidator,
   queryPaginationValidator,
-  // queryCategoriesValidator,
+  queryCategoriesValidator,
   getMuseums
 );
-router.get("/all", requireToken, getAllMuseums);
 router.get("/:id", requireToken, paramIdValidator, getMuseumById);
+router.get("/all", requireToken, getAllMuseums);
 router.post("/", requireToken, validatorBodyMuseum, createMuseums);
 router.patch(
   "/:id",
@@ -43,4 +45,5 @@ router.patch(
   updateMuseumById
 );
 router.delete("/:id", requireToken, paramIdValidator, deleteMuseumById);
+
 export default router;

@@ -37,20 +37,31 @@ export const queryPaginationValidator = [
 ];
 
 export const queryCategoriesValidator = [
-  query("categories").optional().escape(),
-  // .custom((value) => {
-  //   const categories = value.split(",");
-  //   // Agregar la ista de categorías permitidas
-  //   const allowedCategories = ["categoria1", "categoria2", "categoria3"];
+  query("categories")
+    .optional()
+    .escape()
+    .custom((value) => {
+      const categories = value.split(",");
+      const allowedCategories = [
+        "Sin categoría",
+        "Antropología",
+        "Arqueología",
+        "Arte",
+        "Arte Alternativo",
+        "Ciencia y tecnología",
+        "Especializado",
+        "Historia",
+        "TND",
+      ];
 
-  //   for (const category of categories) {
-  //     if (!allowedCategories.includes(category)) {
-  //       throw new Error(`La categoría '${category}' no es válida`);
-  //     }
-  //   }
+      for (const category of categories) {
+        if (!allowedCategories.includes(category)) {
+          throw new Error(`La categoría '${category}' no es válida`);
+        }
+      }
 
-  //   return true;
-  // }),
+      return true;
+    }),
   validationResultExpress,
 ];
 
