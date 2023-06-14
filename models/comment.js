@@ -16,9 +16,7 @@ const commentSchema = new Schema({
     type: Number,
     required: true,
   },
-  comment: {
-    type: String,
-  },
+  comment: String,
   date: {
     type: Date,
     default: Date.now,

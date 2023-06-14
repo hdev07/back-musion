@@ -6,6 +6,7 @@ import museumRouter from "./routes/museum.routes.js";
 import favoriteRouter from "./routes/favorite.routes.js";
 import opinionRouter from "./routes/opinion.routes.js";
 import userRouter from "./routes/user.routes.js";
+import eventRouter from "./routes/event.routes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { limiter } from "./middlewares/rateLimit.js";
@@ -37,6 +38,7 @@ app.use("/api/v1/museums", museumRouter);
 app.use("/api/v1/favorites", favoriteRouter);
 app.use("/api/v1/opinions", opinionRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/events", eventRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>

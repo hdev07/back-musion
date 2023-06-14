@@ -18,6 +18,7 @@ import {
 } from "../middlewares/validatorManager.js";
 const router = Router();
 
+// GET    /api/v1/museums/categories get categories of museums
 // GET    /api/v1/museums       get museums whit pagination/search/category
 // GET    /api/v1/museums/all   get all museums
 // GET    /api/v1/museums/:id   get one museum
