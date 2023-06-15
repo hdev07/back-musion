@@ -36,11 +36,18 @@ const museumSchema = new Schema(
       },
     },
     telephone: String,
+    email: String,
     url: String,
+    socialMedia: {
+      facebook: String,
+      twitter: String,
+      instagram: String,
+    },
     openingHours: [
       {
-        type: String,
-        required: true,
+        day: String,
+        startTime: Date,
+        endTime: Date,
       },
     ],
     priceRange: {
@@ -70,16 +77,35 @@ const museumSchema = new Schema(
     },
     travelTime: Number,
     stayTime: Number,
-    events: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Event",
-      },
-    ],
     registration_date: {
       type: Date,
       default: Date.now,
     },
+    rating: {
+      average: {
+        type: Number,
+        default: 0,
+      },
+      total: {
+        type: Number,
+        default: 0,
+      },
+      count: {
+        type: Number,
+        default: 0,
+      },
+    },
+    featured: {
+      type: Boolean,
+      default: false,
+    },
+    amenities: [String],
+    accessibility: {
+      wheelchairAccessible: Boolean,
+      assistedListeningSystem: Boolean,
+      signLanguageInterpreters: Boolean,
+    },
+    images: [String],
   },
   { timestamps: true }
 );

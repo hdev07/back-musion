@@ -18,13 +18,13 @@ import {
 } from "../middlewares/validatorManager.js";
 const router = Router();
 
-// GET    /api/v1/museums/categories get categories of museums
-// GET    /api/v1/museums       get museums whit pagination/search/category
-// GET    /api/v1/museums/all   get all museums
-// GET    /api/v1/museums/:id   get one museum
-// POST   /api/v1/museums       create museum
-// PATCH  /api/v1/museums/:id   update museum
-// DELETE /api/v1/museums/:id   delete museum
+// GET    /museums/categories get categories of museums
+// GET    /museums/           get museums whit pag/search/category
+// GET    /museums/all        get all museums
+// GET    /museums/:id        get one museum
+// POST   /museums/           create museum
+// PATCH  /museums/:id        update museum
+// DELETE /museums/:id        delete museum
 
 router.get("/categories", requireToken, getCategoriesWithCounts);
 router.get(

@@ -45,143 +45,84 @@ export const getMuseums = async (req, res) => {
       museums,
     });
   } catch (error) {
-    res.status(500).json({ msg: "Error en el servidor" });
+    res.status(500).json({ msg: "Error al obtener los museos" });
   }
 };
 
+// Obtener todos los museos
 export const getAllMuseums = async (req, res) => {
   try {
-    const museums = await Museum.find().select(
-      "id name description category address review coordinates"
-    );
-
-    return res.status(200).json({ museums });
+    const museums = await Museum.find();
+    res.status(200).json(museums);
   } catch (error) {
-    return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
+    res.status(500).json({ msg: "Error en al obtener los museos" });
   }
 };
 
+// Obtener un museo por ID
 export const getMuseumById = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const { id } = req.params;
     const museum = await Museum.findById(id);
-
-    if (!museum) {
-      return res.status(404).json({ msg: "Museo no encontrado" });
-    }
-
-    return res.json({ museum });
-  } catch (error) {
-    if (error.kind === "ObjectId")
-      return res.status(404).json({ msg: "Formato de id incorrecto" });
-
-    return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
-  }
-};
-
-export const createMuseums = async (req, res) => {
-  try {
-    const {
-      name,
-      description,
-      image,
-      category,
-      coordinates,
-      address,
-      telephone,
-      url,
-      openingHours,
-      priceRange,
-      review,
-      travelTime,
-      stayTime,
-    } = req.body;
-
-    const museum = new Museum({
-      name,
-      description,
-      image,
-      category,
-      coordinates: {
-        lat: coordinates.lat,
-        lng: coordinates.lng,
-      },
-      address: {
-        streetAddress: address.streetAddress,
-        addressLocality: address.addressLocality,
-        postalCode: address.postalCode,
-        addressCountry: address.addressCountry,
-      },
-      telephone,
-      url,
-      openingHours: [...openingHours],
-      priceRange: {
-        freeSunday: priceRange.freeSunday,
-        general: priceRange.general,
-        student: priceRange.studen,
-        inapam: priceRange.inapam,
-      },
-      review: {
-        reviewRating: {
-          ratingValue: review.reviewRating.ratingValue,
-          bestRating: review.reviewRating.bestRating,
-          worstRating: review.reviewRating.worstRating,
-          author: review.reviewRating.author,
-          datePublished: review.reviewRating.datePublished,
-          description: review.reviewRating.description,
-        },
-      },
-      travelTime: travelTime,
-      stayTime: stayTime,
-    });
-
-    await museum.save();
-
-    return res.status(201).json({ museum });
-  } catch (error) {
-    return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
-  }
-};
-
-export const updateMuseumById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updatedData = req.body;
-
-    const museum = await Museum.findByIdAndUpdate(id, updatedData);
-
-    if (!museum) {
-      return res.status(404).json({ msg: "Museo no encontrado" });
-    }
-
-    return res.status(200).json({ msg: "Museo actualizado" });
-  } catch (error) {
-    if (error.kind === "ObjectId") {
-      return res.status(404).json({ msg: "Formato de ID incorrecto" });
+    if (museum) {
+      res.status(200).json(museum);
     } else {
-      return res.status(500).json({ msg: "Ocurrió un error en el servidor" });
+      res.status(404).json({ msg: "Museo no encontrado" });
     }
-  }
-};
-
-export const deleteMuseumById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const museum = await Museum.findByIdAndDelete(id);
-
-    if (!museum) {
-      return res.status(404).json({ msg: "Museo no encontrado" });
-    }
-
-    return res.json({ msg: "Museo eliminado" });
   } catch (error) {
-    if (error.kind === "ObjectId")
-      return res.status(404).json({ msg: "Formato de id incorrecto" });
-
-    return res.status(500).json({ msg: "Ocurrio un error en el servidor" });
+    res.status(500).json({ msg: "Error al obtener el museo" });
   }
 };
 
+// Crear un nuevo museo
+export const createMuseum = async (req, res) => {
+  const museumData = req.body;
+
+  try {
+    const museum = await Museum.create(museumData);
+    res.status(201).json(museum);
+  } catch (error) {
+    res.status(500).json({ msg: "Error al crear el museo" });
+  }
+};
+
+// Actualizar un museo existente
+export const updateMuseum = async (req, res) => {
+  const { id } = req.params;
+  const museumData = req.body;
+
+  try {
+    const museum = await Museum.findByIdAndUpdate(id, museumData, {
+      new: true,
+    });
+    if (museum) {
+      res.status(200).json(museum);
+    } else {
+      res.status(404).json({ msg: "Museo no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ msg: "Error al actualizar el museo" });
+  }
+};
+
+// Eliminar un museo
+export const deleteMuseum = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const museum = await Museum.findByIdAndDelete(id);
+    if (museum) {
+      res.status(200).json({ message: "Museo eliminado correctamente" });
+    } else {
+      res.status(404).json({ msg: "Museo no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ msg: "Error eliminar el museo" });
+  }
+};
+
+// Obtener las categorías de los museos
 export const getCategoriesWithCounts = async (req, res) => {
   try {
     const categories = await Museum.distinct("category");

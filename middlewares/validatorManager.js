@@ -29,9 +29,9 @@ export const querySearchValidator = [
 export const queryPaginationValidator = [
   query("page")
     .optional()
-    .isInt({ min: 1 })
+    .isInt({ min: 1, max: 100 })
     .withMessage(
-      "El parámetro 'page' debe ser un número entero mayor o igual a 1"
+      "El parámetro 'page' debe ser un número entero mayor o igual a 1 y menor a 100"
     ),
   validationResultExpress,
 ];

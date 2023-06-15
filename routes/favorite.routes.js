@@ -1,29 +1,30 @@
 import { Router } from "express";
 import {
-  getAllFavorites,
   getFavorites,
+  getAllFavorites,
   addToFavorites,
   removeFromFavorites,
 } from "../controllers/favorite.controller.js";
 import { requireToken } from "../middlewares/requireToken.js";
 import {
-  paramIdValidator,
   queryPaginationValidator,
   querySearchValidator,
+  queryCategoriesValidator,
+  paramIdValidator,
 } from "../middlewares/validatorManager.js";
 const router = Router();
 
-// GET    /api/v1/favorites       get favorites whit pagination/search/category
-// GET    /api/v1/favorites/all   get all favorites
-// POST   /api/v1/favorites       create  favorites
-// DELETE /api/v1/favorites/:id   remove  favorites
+// GET    /favorites/      get favorites whit pag/search/category
+// GET    /favorites/all   get all favorites
+// POST   /favorites/      create  favorites
+// DELETE /favorites/:id   remove  favorites
 
 router.get(
   "/",
   requireToken,
   querySearchValidator,
   queryPaginationValidator,
-  // queryCategoriesValidator,
+  queryCategoriesValidator,
   getFavorites
 );
 router.get("/all", requireToken, getAllFavorites);
