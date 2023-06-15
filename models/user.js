@@ -2,34 +2,41 @@ import mongoose from "mongoose";
 import bcryptjs from "bcryptjs";
 
 const { Schema, model } = mongoose;
-const userSchema = new Schema({
-  name: { type: String, required: true },
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    unique: true,
-    lowercase: true,
-    index: { unique: true },
+const userSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+      lowercase: true,
+      index: { unique: true },
+    },
+    emailVerified: Boolean,
+    confirmationToken: String,
+    password: { type: String, required: true },
+    resetToken: String,
+    resetTokenExpires: Date,
+    visitedMuseums: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Museum",
+      },
+    ],
+    favoritesMuseums: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Museum",
+      },
+    ],
+    registration_date: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  emailVerified: Boolean,
-  confirmationToken: String,
-  password: { type: String, required: true },
-  resetToken: String,
-  resetTokenExpires: Date,
-  visitedMuseums: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Museum",
-    },
-  ],
-  favoritesMuseums: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Museum",
-    },
-  ],
-});
+  { timestamps: true }
+);
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();

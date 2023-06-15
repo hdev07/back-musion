@@ -1,74 +1,87 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-const museumSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
-  category: String,
-  coordinates: {
-    lat: {
-      type: Number,
-      required: true,
-    },
-    lng: {
-      type: Number,
-      required: true,
-    },
-  },
-  address: {
-    streetAddress: String,
-    addressLocality: String,
-    postalCode: String,
-    addressCountry: {
-      type: String,
-      default: "México",
-    },
-  },
-  telephone: String,
-  url: String,
-  openingHours: [
-    {
+const museumSchema = new Schema(
+  {
+    name: {
       type: String,
       required: true,
     },
-  ],
-  priceRange: {
-    freeSunday: Boolean,
-    general: Number,
-    student: Number,
-    inapam: Number,
-  },
-  review: {
-    reviewRating: {
-      ratingValue: Number,
-      bestRating: {
+    description: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    category: String,
+    coordinates: {
+      lat: {
         type: Number,
-        default: 5,
+        required: true,
       },
-      worstRating: {
+      lng: {
         type: Number,
-        default: 1,
+        required: true,
       },
     },
-    author: String,
-    datePublished: {
+    address: {
+      streetAddress: String,
+      addressLocality: String,
+      postalCode: String,
+      addressCountry: {
+        type: String,
+        default: "México",
+      },
+    },
+    telephone: String,
+    url: String,
+    openingHours: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
+    priceRange: {
+      freeSunday: Boolean,
+      general: Number,
+      student: Number,
+      inapam: Number,
+    },
+    review: {
+      reviewRating: {
+        ratingValue: Number,
+        bestRating: {
+          type: Number,
+          default: 5,
+        },
+        worstRating: {
+          type: Number,
+          default: 1,
+        },
+      },
+      author: String,
+      datePublished: {
+        type: Date,
+        default: Date.now,
+      },
+      description: String,
+    },
+    travelTime: Number,
+    stayTime: Number,
+    events: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Event",
+      },
+    ],
+    registration_date: {
       type: Date,
       default: Date.now,
     },
-    description: String,
   },
-  travelTime: Number,
-  stayTime: Number,
-});
+  { timestamps: true }
+);
 
 export const Museum = model("Museum", museumSchema);
