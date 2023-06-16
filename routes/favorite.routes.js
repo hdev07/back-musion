@@ -14,7 +14,7 @@ import {
 } from "../middlewares/validatorManager.js";
 const router = Router();
 
-// GET    /favorites/      get favorites whit pag/search/category
+// GET    /favorites/      get favorites with pag/search/category
 // GET    /favorites/all   get all favorites
 // POST   /favorites/      create  favorites
 // DELETE /favorites/:id   remove  favorites

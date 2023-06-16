@@ -19,7 +19,7 @@ import {
 const router = Router();
 
 // GET    /museums/categories get categories of museums
-// GET    /museums/           get museums whit pag/search/category
+// GET    /museums/           get museums withpag/search/category
 // GET    /museums/all        get all museums
 // GET    /museums/:id        get one museum
 // POST   /museums/           create museum

@@ -18,7 +18,7 @@ import {
 
 const router = Router();
 
-// GET    /events/           - get events whit pag/search/startDate
+// GET    /events/           - get events with pag/search/startDate
 // GET    /events/all        - get all events
 // GET    /events/museum/:id - get all events for id museum
 // GET    /events/:id        - get one event

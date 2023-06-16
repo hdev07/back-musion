@@ -4,7 +4,7 @@ import { validatorBodyOpinion } from "../middlewares/validatorManager.js";
 
 const router = Router();
 
-// GET    /api/v1/opinions       get opinions whit pagination/search/category
+// GET    /api/v1/opinions       get opinions with pagination/search/category
 // GET    /api/v1/opinions/all   get all opinions
 // GET    /api/v1/opinions/:id   get one opinion
 // POST   /api/v1/opinions       create opinion
