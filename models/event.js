@@ -6,14 +6,34 @@ const eventSchema = new Schema(
     museum: {
       type: Schema.Types.ObjectId,
       ref: "Museum",
+      required: true,
     },
-    name: String,
-    description: String,
-    start_date: Date,
-    end_date: Date,
-    cost: Number,
-    image: String,
-    url: String,
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    startDate: {
+      type: Date,
+      required: true,
+    },
+    endDate: {
+      type: Date,
+      required: true,
+    },
+    cost: {
+      type: Number,
+      required: true,
+    },
+    attendees: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     registration_date: {
       type: Date,
       default: Date.now,

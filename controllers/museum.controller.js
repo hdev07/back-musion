@@ -1,10 +1,10 @@
 import { Museum } from "../models/museum.js";
 
 export const getMuseums = async (req, res) => {
-  const { page = 1, search, categories } = req.query;
-  const limit = 25;
-
   try {
+    const { page = 1, search, categories } = req.query;
+    const limit = 25;
+
     let query = {};
 
     // Agrega filtro de búsqueda por nombre
@@ -61,10 +61,10 @@ export const getAllMuseums = async (req, res) => {
 
 // Obtener un museo por ID
 export const getMuseumById = async (req, res) => {
-  const { id } = req.params;
-
   try {
+    const { id } = req.params;
     const museum = await Museum.findById(id);
+
     if (museum) {
       res.status(200).json(museum);
     } else {
@@ -77,9 +77,9 @@ export const getMuseumById = async (req, res) => {
 
 // Crear un nuevo museo
 export const createMuseum = async (req, res) => {
-  const museumData = req.body;
-
   try {
+    const museumData = req.body;
+
     const museum = await Museum.create(museumData);
     res.status(201).json(museum);
   } catch (error) {
@@ -89,10 +89,10 @@ export const createMuseum = async (req, res) => {
 
 // Actualizar un museo existente
 export const updateMuseum = async (req, res) => {
-  const { id } = req.params;
-  const museumData = req.body;
-
   try {
+    const { id } = req.params;
+    const museumData = req.body;
+
     const museum = await Museum.findByIdAndUpdate(id, museumData, {
       new: true,
     });
@@ -108,14 +108,14 @@ export const updateMuseum = async (req, res) => {
 
 // Eliminar un museo
 export const deleteMuseum = async (req, res) => {
-  const { id } = req.params;
-
   try {
+    const { id } = req.params;
     const museum = await Museum.findByIdAndDelete(id);
-    if (museum) {
-      res.status(200).json({ message: "Museo eliminado correctamente" });
-    } else {
+
+    if (!museum) {
       res.status(404).json({ msg: "Museo no encontrado" });
+    } else {
+      res.status(200).json({ msg: "Museo eliminado correctamente" });
     }
   } catch (error) {
     res.status(500).json({ msg: "Error eliminar el museo" });

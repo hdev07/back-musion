@@ -112,14 +112,18 @@ export const validatorBodyMuseum = [
   validationResultExpress,
 ];
 
-// export const validatorBodyOpinion = [
-//   body("name", "El nombre es obligatorio").trim().notEmpty().escape(),
-//   body("email", "Formato de email incorrecto").trim().isEmail().escape(),
-//   body("telephone", "El teléfono es obligatorio").trim().notEmpty().escape(),
-//   body("telephone", "Teléfono tiene que ser numerico").isNumeric(),
-//   body("comment", "El mensaje es obligatorio").trim().notEmpty().escape(),
-//   validationResultExpress,
-// ];
+export const validatorBodyEvent = [
+  body("museum", "El museo es obligatorio").trim().notEmpty(),
+  body("museum", "Id museo no valido").isMongoId(),
+  body("title", "El titulo es obligatorio").trim().notEmpty(),
+  body("description", "La descripcion es obligatoria").trim().notEmpty(),
+  body("startDate", "La fecha de inicio es obligatoria").trim().notEmpty(),
+  body("startDate", "El campo de inicio debe ser una fecha").isDate(),
+  body("endDate", "La fecha de fin es obligatoria").trim().notEmpty(),
+  body("endDate", "El campo de fin debe ser una fecha").isDate(),
+  body("cost", "El costo es obligatorio").trim().notEmpty(),
+  validationResultExpress,
+];
 
 export const validatorBodyOpinion = [
   body("name", "El nombre es obligatorio").trim().notEmpty().escape(),
