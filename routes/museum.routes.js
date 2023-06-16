@@ -3,9 +3,9 @@ import {
   getAllMuseums,
   getMuseums,
   getMuseumById,
-  createMuseums,
-  updateMuseumById,
-  deleteMuseumById,
+  createMuseum,
+  updateMuseum,
+  deleteMuseum,
   getCategoriesWithCounts,
 } from "../controllers/museum.controller.js";
 import { requireToken } from "../middlewares/requireToken.js";
@@ -37,14 +37,14 @@ router.get(
 );
 router.get("/all", requireToken, getAllMuseums);
 router.get("/:id", requireToken, paramIdValidator, getMuseumById);
-router.post("/", requireToken, validatorBodyMuseum, createMuseums);
+router.post("/", requireToken, validatorBodyMuseum, createMuseum);
 router.patch(
   "/:id",
   requireToken,
   paramIdValidator,
   validatorBodyMuseum,
-  updateMuseumById
+  updateMuseum
 );
-router.delete("/:id", requireToken, paramIdValidator, deleteMuseumById);
+router.delete("/:id", requireToken, paramIdValidator, deleteMuseum);
 
 export default router;
