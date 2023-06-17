@@ -146,3 +146,19 @@ export const getCategoriesWithCounts = async (req, res) => {
     return res.status(500).json({ msg: "Ocurrió un error en el servidor" });
   }
 };
+
+// Obtener los museos con la mejor calificación
+export const getMuseumsBestRating = async (req, res) => {
+  try {
+    // Obtener los museos ordenados por la calificación promedio de mayor a menor
+    const museums = await Museum.find()
+      .sort({ "rating.average": -1 })
+      .limit(10);
+
+    res.status(200).json({ museums });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ msg: "Error al obtener los museos con mejor calificación" });
+  }
+};
