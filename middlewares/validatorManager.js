@@ -65,6 +65,14 @@ export const queryCategoriesValidator = [
   validationResultExpress,
 ];
 
+export const queryRatingValidator = [
+  query("rating")
+    .optional()
+    .isInt({ min: 1, max: 5 })
+    .withMessage("El rating debe ser un némero entero entre 1 y 5"),
+  validationResultExpress,
+];
+
 export const validationBodyRegister = [
   body("name", "El nombre es obligatorio").trim().notEmpty(),
   body("email", "Formato de email incorrecto").trim().isEmail(),
@@ -122,6 +130,18 @@ export const validatorBodyEvent = [
   body("endDate", "La fecha de fin es obligatoria").trim().notEmpty(),
   body("endDate", "El campo de fin debe ser una fecha").isDate(),
   body("cost", "El costo es obligatorio").trim().notEmpty(),
+  validationResultExpress,
+];
+
+export const validatorBodyReview = [
+  body("museum", "El museo es obligatorio").trim().notEmpty(),
+  body("museum", "Id museo no valido").isMongoId(),
+  body("rating", "El rating es obligatorio").trim().notEmpty(),
+  body("rating", "El rating debe ser un numero")
+    .isNumeric()
+    .isInt({ min: 1, max: 5 })
+    .withMessage("El rating debe ser un número entre 1 y 5"),
+  body("comment", "El comentario es obligatorio").trim().notEmpty(),
   validationResultExpress,
 ];
 

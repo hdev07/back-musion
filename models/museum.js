@@ -56,25 +56,12 @@ const museumSchema = new Schema(
       student: Number,
       inapam: Number,
     },
-    review: {
-      reviewRating: {
-        ratingValue: Number,
-        bestRating: {
-          type: Number,
-          default: 5,
-        },
-        worstRating: {
-          type: Number,
-          default: 1,
-        },
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Review",
       },
-      author: String,
-      datePublished: {
-        type: Date,
-        default: Date.now,
-      },
-      description: String,
-    },
+    ],
     travelTime: Number,
     stayTime: Number,
     registration_date: {
@@ -109,5 +96,26 @@ const museumSchema = new Schema(
   },
   { timestamps: true }
 );
+
+// Método para calcular el rating promedio y actualizar el campo "rating"
+museumSchema.methods.calculateRating = function () {
+  if (this.reviews.length === 0) {
+    this.rating.average = 0;
+    this.rating.total = 0;
+    this.rating.count = 0;
+  } else {
+    const totalRating = this.reviews.reduce(
+      (sum, review) => sum + review.rating,
+      0
+    );
+    const averageRating = totalRating / this.reviews.length;
+
+    this.rating.average = averageRating;
+    this.rating.total = totalRating;
+    this.rating.count = this.reviews.length;
+  }
+
+  return this.save();
+};
 
 export const Museum = model("Museum", museumSchema);

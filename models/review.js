@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-const commentSchema = new Schema(
+const reviewSchema = new Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -18,10 +18,6 @@ const commentSchema = new Schema(
       required: true,
     },
     comment: String,
-    date: {
-      type: Date,
-      default: Date.now,
-    },
     registration_date: {
       type: Date,
       default: Date.now,
@@ -30,4 +26,4 @@ const commentSchema = new Schema(
   { timestamps: true }
 );
 
-export default Comment = model("Comment", commentSchema);
+export const Review = model("Review", reviewSchema);
