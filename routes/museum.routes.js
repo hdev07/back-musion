@@ -8,6 +8,7 @@ import {
   deleteMuseum,
   getCategoriesWithCounts,
   getMuseumsBestRating,
+  getMostVisitedMuseums,
 } from "../controllers/museum.controller.js";
 import { requireToken } from "../middlewares/requireToken.js";
 import {
@@ -24,6 +25,7 @@ const router = Router();
 // GET    /museums/best-rating - get 10 best museums
 // GET    /museums/categories  - get categories of museums
 // GET    /museums/:id         - get one museum
+// POST   /museums/visit       - register visit
 // POST   /museums/            - create museum
 // PATCH  /museums/:id         - update museum
 // DELETE /museums/:id         - delete museum
@@ -39,6 +41,7 @@ router.get(
 );
 router.get("/all", requireToken, getAllMuseums);
 router.get("/best-rating", requireToken, getMuseumsBestRating);
+router.get("/most-visited", requireToken, getMostVisitedMuseums);
 router.get("/:id", requireToken, paramIdValidator, getMuseumById);
 router.post("/", requireToken, validatorBodyMuseum, createMuseum);
 router.patch(
@@ -49,5 +52,4 @@ router.patch(
   updateMuseum
 );
 router.delete("/:id", requireToken, paramIdValidator, deleteMuseum);
-
 export default router;

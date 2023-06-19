@@ -66,7 +66,7 @@ export const getMuseumById = async (req, res) => {
     const museum = await Museum.findById(id);
 
     if (museum) {
-      res.status(200).json(museum);
+      res.status(200).json({ museum });
     } else {
       res.status(404).json({ msg: "Museo no encontrado" });
     }
@@ -81,7 +81,7 @@ export const createMuseum = async (req, res) => {
     const museumData = req.body;
 
     const museum = await Museum.create(museumData);
-    res.status(201).json(museum);
+    res.status(201).json({ museum });
   } catch (error) {
     res.status(500).json({ msg: "Error al crear el museo" });
   }
@@ -97,7 +97,7 @@ export const updateMuseum = async (req, res) => {
       new: true,
     });
     if (museum) {
-      res.status(200).json(museum);
+      res.status(200).json({ museum });
     } else {
       res.status(404).json({ msg: "Museo no encontrado" });
     }
@@ -160,5 +160,35 @@ export const getMuseumsBestRating = async (req, res) => {
     res
       .status(500)
       .json({ msg: "Error al obtener los museos con mejor calificación" });
+  }
+};
+
+// Obtener los museos más visitados
+export const getMostVisitedMuseums = async (req, res) => {
+  try {
+    const mostVisitedMuseums = await Museum.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "_id",
+          foreignField: "visitedMuseums",
+          as: "visits",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          totalVisits: { $size: "$visits" },
+        },
+      },
+      {
+        $sort: { totalVisits: -1 },
+      },
+    ]).limit(10); // limitamos a 10
+
+    res.status(200).json({ mostVisitedMuseums });
+  } catch (error) {
+    res.status(500).json({ msg: "Error al obtener los museos más visitados" });
   }
 };

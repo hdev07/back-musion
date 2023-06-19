@@ -46,8 +46,8 @@ const museumSchema = new Schema(
     openingHours: [
       {
         day: String,
-        startTime: Date,
-        endTime: Date,
+        startTime: String,
+        endTime: String,
       },
     ],
     priceRange: {
@@ -93,6 +93,10 @@ const museumSchema = new Schema(
       signLanguageInterpreters: Boolean,
     },
     images: [String],
+    visitCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

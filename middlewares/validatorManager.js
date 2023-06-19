@@ -116,7 +116,9 @@ export const validatorBodyMuseum = [
     "coordinates.lng",
     "La coordenada longitud tiene que ser numerica"
   ).isNumeric(),
-  body("openingHours", "Los horarios son obligatorios").trim().notEmpty(),
+  body("openingHours")
+    .isArray({ min: 1 })
+    .withMessage("Los horarios son obligatorios"),
   validationResultExpress,
 ];
 
