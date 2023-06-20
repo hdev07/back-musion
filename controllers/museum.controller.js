@@ -53,7 +53,7 @@ export const getMuseums = async (req, res) => {
 export const getAllMuseums = async (req, res) => {
   try {
     const museums = await Museum.find();
-    res.status(200).json(museums);
+    res.status(200).json({ museums });
   } catch (error) {
     res.status(500).json({ msg: "Error en al obtener los museos" });
   }
