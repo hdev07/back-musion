@@ -25,7 +25,8 @@ export const getUserInfo = async (req, res) => {
 };
 
 // Controlador para eliminar la cuenta del usuario
-export const deleteAccount = async (req, res) => {
+
+export const deleteUser = async (req, res) => {
   try {
     const userId = req.uid;
     const user = await User.findById(userId);
@@ -34,12 +35,11 @@ export const deleteAccount = async (req, res) => {
       return res.status(404).json({ msg: "Usuario no encontrado" });
     }
 
-    // Realizar las acciones necesarias para eliminar la cuenta del usuario
-    // ...
+    await user.delete();
 
-    res.status(200).json({ msg: "Cuenta eliminada correctamente" });
+    res.status(200).json({ msg: "Usuario eliminado correctamente" });
   } catch (error) {
-    res.status(500).json({ msg: "Error al eliminar la cuenta del usuario" });
+    res.status(500).json({ msg: "Error al eliminar el usuario" });
   }
 };
 
