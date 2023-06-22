@@ -2,9 +2,10 @@ import { User } from "../models/user.js";
 import { generateToken, generateRefreshToken } from "../utils/tokenManager.js";
 
 export const register = async (req, res) => {
-  const { name, email, password } = req.body;
   try {
+    const { name, email, password } = req.body;
     const user = new User({ name, email, password });
+
     await user.save();
 
     const { token, expiresIn } = generateToken(user.id);

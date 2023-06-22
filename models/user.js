@@ -13,7 +13,7 @@ const userSchema = new Schema(
       lowercase: true,
       index: { unique: true },
     },
-    emailVerified: Boolean,
+    emailVerified: { type: Boolean, default: false },
     confirmationToken: String,
     password: { type: String, required: true },
     resetToken: String,
@@ -34,6 +34,7 @@ const userSchema = new Schema(
       type: Date,
       default: Date.now,
     },
+    activeAccount: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { changePassword, getUserInfo } from "../controllers/user.controller.js";
+import {
+  changePassword,
+  deactivateAccount,
+  getUserInfo,
+} from "../controllers/user.controller.js";
 import { requireToken } from "../middlewares/requireToken.js";
 import { validatorBodyChangePassword } from "../middlewares/validatorManager.js";
 
@@ -12,5 +16,6 @@ router.put(
   validatorBodyChangePassword,
   changePassword
 );
+router.put("/delete", requireToken, deactivateAccount);
 
 export default router;
