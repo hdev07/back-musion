@@ -73,6 +73,25 @@ export const queryRatingValidator = [
   validationResultExpress,
 ];
 
+export const validatorBodyChangePassword = [
+  body("currentPassword", "La contraseña actual es obligatoria")
+    .trim()
+    .notEmpty(),
+  body("newPassword", "La contraseña nueva es obligatoria").trim().notEmpty(),
+  body("newPassword", "La contraseña debe tener al menos 8 caracteres")
+    .trim()
+    .isLength({ min: 8 }),
+  body("newPassword", "Formato de contraseña incorrecto").custom(
+    (value, { req }) => {
+      if (value !== req.body.reNewPassword) {
+        throw new Error("Las contraseñas no coinciden");
+      }
+      return value;
+    }
+  ),
+  validationResultExpress,
+];
+
 export const validationBodyRegister = [
   body("name", "El nombre es obligatorio").trim().notEmpty(),
   body("email", "Formato de email incorrecto").trim().isEmail(),
