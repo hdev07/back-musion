@@ -14,8 +14,8 @@ import { limiter } from "./middlewares/rateLimit.js";
 
 const app = express();
 
-const { ORIGIN, ORIGIN1, ORIGIN2 } = process.env;
-const witheList = [ORIGIN, ORIGIN1, ORIGIN2];
+const { ORIGIN, ORIGIN1, ORIGIN2, ORIGIN3, ORIGIN4 } = process.env;
+const witheList = [ORIGIN, ORIGIN1, ORIGIN2, ORIGIN3, ORIGIN4];
 
 app.use(
   cors({
